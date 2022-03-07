@@ -9,6 +9,7 @@ const Composite = Matter.Composite;
 
 
 
+
 let engine;
 let world;
 var ground;
@@ -16,6 +17,14 @@ var ground;
 var rope;
 var fruit, fruit_options;
 var link;
+var backgroundImg, bunnyImg, melonImg;
+var bunny;
+
+function preload() {
+  backgroundImg = loadImage("./images/background.png");
+  bunnyImg = loadImage("./images/Rabbit-01.png");
+  melonImg = loadImage("./images/melon.png");
+}
 
 function setup() 
 {
@@ -25,6 +34,11 @@ function setup()
   world = engine.world;
   ground = new Ground(200,680,600,20);
   rope = new Rope(6, {x:245, y:30});
+
+  bunny = createSprite(250, 620, 100, 100);
+  bunny.addImage(bunnyImg);
+
+  bunny.scale = 0.2;
 
 
   fruit_options = {
@@ -38,6 +52,7 @@ function setup()
 
   rectMode(CENTER);
   ellipseMode(RADIUS);
+  imageMode(CENTER);
   textSize(50)
   
 }
@@ -45,13 +60,17 @@ function setup()
 function draw() 
 {
   background(51);
+  
+  image(backgroundImg, 250, 350, width, height);
   ground.show();
 
   rope.show();
 
-  fill("red");
-  ellipse(fruit.position.x, fruit.position.y, 15, 15);
+  
+  image(melonImg, fruit.position.x, fruit.position.y, 70, 70);
   
   Engine.update(engine);
+
+  drawSprites();
    
 }
