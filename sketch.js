@@ -19,6 +19,7 @@ var fruit, fruit_options;
 var link;
 var backgroundImg, bunnyImg, melonImg;
 var bunny;
+var button;
 
 function preload() {
   backgroundImg = loadImage("./images/background.png");
@@ -55,6 +56,10 @@ function setup()
   imageMode(CENTER);
   textSize(50)
   
+  button = createImg("./images/cut_btn.png");
+  button.position(220, 20);
+  button.size(50,50);
+  button.mouseClicked(drop);
 }
 
 function draw() 
@@ -73,4 +78,10 @@ function draw()
 
   drawSprites();
    
+}
+
+function drop() {
+  rope.break();
+  link.detach();
+  link = null;
 }
