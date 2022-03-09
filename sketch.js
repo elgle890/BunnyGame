@@ -71,13 +71,28 @@ function draw()
 
   rope.show();
 
-  
-  image(melonImg, fruit.position.x, fruit.position.y, 70, 70);
+  if(fruit != null) {
+    image(melonImg, fruit.position.x, fruit.position.y, 70, 70);
+  }
+   
   
   Engine.update(engine);
 
   drawSprites();
    
+}
+
+function collide(objectA, objectB) {
+    if(objectA != null && objectB != null) {
+      var distanceDiff = dist(objectA.position.x, objectA.position.y,objectB.position.x, objectB.position.y);
+      if(distanceDiff <= 80) {
+        World.remove(world, fruit);
+        fruit = null;
+        return true;
+      } else {
+        return false;
+      }
+    }
 }
 
 function drop() {
