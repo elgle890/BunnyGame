@@ -18,13 +18,20 @@ var rope;
 var fruit, fruit_options;
 var link;
 var backgroundImg, bunnyImg, melonImg;
-var bunny;
+var bunny, bunnyBlink, bunnyEating, sadBunny;
 var button;
+
 
 function preload() {
   backgroundImg = loadImage("./images/background.png");
   bunnyImg = loadImage("./images/Rabbit-01.png");
   melonImg = loadImage("./images/melon.png");
+  sadBunny = loadAnimation("images/sad_1.png", "images/sad_2.png", "images/sad_3.png")
+  bunnyBlink = loadAnimation("./images/blink_1.png", "./images/blink_2.png", "./images/blink_3.png");
+  bunnyEating = loadAnimation("./images/eat_0.png", "./images/eat_1.png", "./images/eat_2.png", "./images/eat_3.png", "./images/eat_4.png");
+  bunnyEating.looping = false;
+  sadBunny.looping = false;
+
 }
 
 function setup() 
@@ -37,11 +44,17 @@ function setup()
   rope = new Rope(6, {x:245, y:30});
 
   bunny = createSprite(250, 620, 100, 100);
-  bunny.addImage(bunnyImg);
+  // bunny.addImage(bunnyImg);
 
   bunny.scale = 0.2;
-
-
+  bunnyBlink.frameDelay = 20;
+  sadBunny.frameDelay = 20;
+  
+  bunny.addAnimation("bunny blink", bunnyBlink);
+  bunnyEating.frameDelay = 20;
+  bunny.addAnimation("bunny eating", bunnyEating);
+  bunny.addAnimation("sad bunny", sadBunny);
+  
   fruit_options = {
     density: 0.001,
   }
@@ -79,13 +92,26 @@ function draw()
   Engine.update(engine);
 
   drawSprites();
+
+  if(collide(fruit, bunny, 80, true) == true) {
+    bunny.changeAnimation("bunny eating");
+  }
+
+  if(collide(fruit, ground.body, 25, false) == true) {
+    bunny.changeAnimation("sad bunny");
+  }
    
 }
 
-function collide(objectA, objectB) {
+function collide(objectA, objectB, limite, withX) {
     if(objectA != null && objectB != null) {
-      var distanceDiff = dist(objectA.position.x, objectA.position.y,objectB.position.x, objectB.position.y);
-      if(distanceDiff <= 80) {
+      if(withX){
+        var distanceDiff = dist(objectA.position.x, objectA.position.y,objectB.position.x, objectB.position.y);
+      } else {
+        var distanceDiff = dist(0, objectA.position.y,0, objectB.position.y);
+      }
+      
+      if(distanceDiff <= limite) {
         World.remove(world, fruit);
         fruit = null;
         return true;
@@ -93,6 +119,8 @@ function collide(objectA, objectB) {
         return false;
       }
     }
+
+  
 }
 
 function drop() {
