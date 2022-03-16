@@ -19,7 +19,8 @@ var fruit, fruit_options;
 var link;
 var backgroundImg, bunnyImg, melonImg;
 var bunny, bunnyBlink, bunnyEating, sadBunny;
-var button;
+var sEating, sRope_cut, sBackGround;
+var button, ballonButton;
 
 
 function preload() {
@@ -32,6 +33,10 @@ function preload() {
   bunnyEating.looping = false;
   sadBunny.looping = false;
 
+  sEating = loadSound("./sound/eating_sound.mp3");
+  sRope_cut = loadSound("./sound/rope_cut.mp3");
+  sBackGround = loadSound("./sound/sound1.mp3");
+
 }
 
 function setup() 
@@ -41,9 +46,9 @@ function setup()
   engine = Engine.create();
   world = engine.world;
   ground = new Ground(200,680,600,20);
-  rope = new Rope(6, {x:245, y:30});
+  rope = new Rope(8, {x:245, y:30});
 
-  bunny = createSprite(250, 620, 100, 100);
+  bunny = createSprite(400, 620, 100, 100);
   // bunny.addImage(bunnyImg);
 
   bunny.scale = 0.2;
@@ -64,6 +69,9 @@ function setup()
 
   link = new LineLink(rope, fruit);
 
+  sBackGround.play();
+  sBackGround.setVolume(0.50);
+
   rectMode(CENTER);
   ellipseMode(RADIUS);
   imageMode(CENTER);
@@ -73,6 +81,11 @@ function setup()
   button.position(220, 20);
   button.size(50,50);
   button.mouseClicked(drop);
+
+  ballonButton = createImg("./images/balloon.png");
+  ballonButton.position(10, 250);
+  ballonButton.size(150, 100);
+  ballonButton.mouseClicked(airBallon);
 }
 
 function draw() 
@@ -87,6 +100,8 @@ function draw()
   if(fruit != null) {
     image(melonImg, fruit.position.x, fruit.position.y, 70, 70);
   }
+
+  
    
   
   Engine.update(engine);
@@ -95,6 +110,7 @@ function draw()
 
   if(collide(fruit, bunny, 80, true) == true) {
     bunny.changeAnimation("bunny eating");
+    sEating.play();
   }
 
   if(collide(fruit, ground.body, 25, false) == true) {
@@ -110,7 +126,7 @@ function collide(objectA, objectB, limite, withX) {
       } else {
         var distanceDiff = dist(0, objectA.position.y,0, objectB.position.y);
       }
-      
+
       if(distanceDiff <= limite) {
         World.remove(world, fruit);
         fruit = null;
@@ -127,4 +143,13 @@ function drop() {
   rope.break();
   link.detach();
   link = null;
+
+  sRope_cut.play();
+}
+
+function airBallon() {
+    Body.applyForce(fruit, {
+      x: 0,
+      y: 0
+    }, {x: 0.01, y: 0});
 }
