@@ -20,7 +20,7 @@ var link;
 var backgroundImg, bunnyImg, melonImg;
 var bunny, bunnyBlink, bunnyEating, sadBunny;
 var sEating, sRope_cut, sBackGround;
-var button, ballonButton;
+var button, ballonButton, muteButton;
 
 
 function preload() {
@@ -86,6 +86,11 @@ function setup()
   ballonButton.position(10, 250);
   ballonButton.size(150, 100);
   ballonButton.mouseClicked(airBallon);
+
+  muteButton = createImg("./images/mute.png");
+  muteButton.position(420, 10);
+  muteButton.size(50, 50);
+  muteButton.mouseClicked(muteSound);
 }
 
 function draw() 
@@ -148,8 +153,16 @@ function drop() {
 }
 
 function airBallon() {
-    Body.applyForce(fruit, {
-      x: 0,
-      y: 0
-    }, {x: 0.01, y: 0});
+  Body.applyForce(fruit, {
+    x: 0,
+    y: 0
+  }, {x: 0.01, y: 0});
+}
+
+function muteSound() {
+  if(sBackGround.isPlaying()) {
+    sBackGround.stop();
+  } else {
+    sBackGround.play();
+  }
 }
