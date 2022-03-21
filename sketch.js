@@ -21,7 +21,8 @@ var backgroundImg, bunnyImg, melonImg;
 var bunny, bunnyBlink, bunnyEating, sadBunny;
 var sEating, sRope_cut, sBackGround;
 var button, button2, button3, ballonButton, muteButton;
-
+var isMobile;
+var canW, canH;
 
 function preload() {
   backgroundImg = loadImage("./images/background.png");
@@ -41,7 +42,18 @@ function preload() {
 
 function setup() 
 {
-  createCanvas(500,700);
+  isMobile = /iPhone|iPad|Android|iPod/i.test(navigator.userAgent);
+  console.log(isMobile)
+  if(isMobile) {
+    canW = displayWidth;
+    canH = displayHeight;
+    createCanvas(displayWidth,displayHeight);
+  } else {
+    canW = 500;
+    canH = 700;
+    createCanvas(500,700);
+  }
+  
   frameRate(80);
   engine = Engine.create();
   world = engine.world;
@@ -113,7 +125,7 @@ function draw()
 {
   background(51);
   
-  image(backgroundImg, 250, 350, width, height);
+  image(backgroundImg, canW / 2, canH/ 2, canW, canH);
   ground.show();
 
   rope.show();
