@@ -14,13 +14,13 @@ let engine;
 let world;
 var ground;
 
-var rope;
+var rope, rope2, link2, rope3, link3;
 var fruit, fruit_options;
 var link;
 var backgroundImg, bunnyImg, melonImg;
 var bunny, bunnyBlink, bunnyEating, sadBunny;
 var sEating, sRope_cut, sBackGround;
-var button, ballonButton, muteButton;
+var button, button2, button3, ballonButton, muteButton;
 
 
 function preload() {
@@ -46,9 +46,11 @@ function setup()
   engine = Engine.create();
   world = engine.world;
   ground = new Ground(200,680,600,20);
-  rope = new Rope(8, {x:245, y:30});
+  rope = new Rope(8, {x:40, y:30});
+  rope2 = new Rope(7, {x:370, y:40});
+  rope3 = new Rope(4, {x: 400, y:225});
 
-  bunny = createSprite(400, 620, 100, 100);
+  bunny = createSprite(150, 620, 100, 100);
   // bunny.addImage(bunnyImg);
 
   bunny.scale = 0.2;
@@ -68,6 +70,10 @@ function setup()
   Composite.add(rope.body,fruit);
 
   link = new LineLink(rope, fruit);
+  link2 = new LineLink(rope2, fruit);
+  link3 = new LineLink(rope3, fruit);
+
+  
 
   sBackGround.play();
   sBackGround.setVolume(0.50);
@@ -78,14 +84,24 @@ function setup()
   textSize(50)
   
   button = createImg("./images/cut_btn.png");
-  button.position(220, 20);
+  button.position(20, 30);
   button.size(50,50);
   button.mouseClicked(drop);
 
-  ballonButton = createImg("./images/balloon.png");
-  ballonButton.position(10, 250);
-  ballonButton.size(150, 100);
-  ballonButton.mouseClicked(airBallon);
+  button2 = createImg("./images/cut_btn.png");
+  button2.position(330, 35);
+  button2.size(50, 50);
+  button2.mouseClicked(drop2);
+
+  button3 = createImg("./images/cut_btn.png");
+  button3.position(360, 200);
+  button3.size(50, 50);
+  button3.mouseClicked(drop3);
+
+ // ballonButton = createImg("./images/balloon.png");
+ // ballonButton.position(10, 250);
+ // ballonButton.size(150, 100);
+ // ballonButton.mouseClicked(airBallon);
 
   muteButton = createImg("./images/mute.png");
   muteButton.position(420, 10);
@@ -101,6 +117,8 @@ function draw()
   ground.show();
 
   rope.show();
+  rope2.show();
+  rope3.show();
 
   if(fruit != null) {
     image(melonImg, fruit.position.x, fruit.position.y, 70, 70);
@@ -151,6 +169,23 @@ function drop() {
 
   sRope_cut.play();
 }
+
+function drop2() {
+  rope2.break();
+  link2.detach();
+  link2 = null;
+  
+  sRope_cut.play();
+}
+
+function drop3() {
+  rope3.break();
+  link3.detach();
+  link3 = null;
+
+  sRope_cut.play();
+}
+
 
 function airBallon() {
   Body.applyForce(fruit, {
