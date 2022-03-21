@@ -57,12 +57,12 @@ function setup()
   frameRate(80);
   engine = Engine.create();
   world = engine.world;
-  ground = new Ground(200,680,600,20);
+  ground = new Ground(canW /2, canH - 20,canW,20);
   rope = new Rope(8, {x:40, y:30});
   rope2 = new Rope(7, {x:370, y:40});
   rope3 = new Rope(4, {x: 400, y:225});
 
-  bunny = createSprite(150, 620, 100, 100);
+  bunny = createSprite(150, canH - 80, 100, 100);
   // bunny.addImage(bunnyImg);
 
   bunny.scale = 0.2;
@@ -116,7 +116,7 @@ function setup()
  // ballonButton.mouseClicked(airBallon);
 
   muteButton = createImg("./images/mute.png");
-  muteButton.position(420, 10);
+  muteButton.position(canW - 80, 10);
   muteButton.size(50, 50);
   muteButton.mouseClicked(muteSound);
 }
