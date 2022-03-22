@@ -59,7 +59,7 @@ function setup()
   world = engine.world;
   ground = new Ground(canW /2, canH - 20,canW,20);
   rope = new Rope(8, {x:40, y:30});
-  rope2 = new Rope(7, {x:370, y:40});
+  rope2 = new Rope(7, {x:canW - 130, y:40});
   rope3 = new Rope(4, {x: 400, y:225});
 
   bunny = createSprite(150, canH - 80, 100, 100);
