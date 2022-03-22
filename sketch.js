@@ -101,7 +101,7 @@ function setup()
   button.mouseClicked(drop);
 
   button2 = createImg("./images/cut_btn.png");
-  button2.position(330, 35);
+  button2.position(canW - 170, 35);
   button2.size(50, 50);
   button2.mouseClicked(drop2);
 
